@@ -12,7 +12,7 @@ import MyRentals from './components/MyRentals';
 import MyBooks from './components/MyBooks';
 
 // Contract address - replace with your deployed contract address
-const CONTRACT_ADDRESS = "0xd0749caf79a57e0144E4D58F3D14cd9Cd9E9214E"; // Example address
+const CONTRACT_ADDRESS = "0xE440448dA1f762A46bB6893eFbF1dbc0703Cd4d0"; // Example address
 
 function App() {
   const [web3, setWeb3] = useState<Web3 | null>(null);
