@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ArrowLeft, Clock, DollarSign, User, Calendar } from 'lucide-react';
 
@@ -11,8 +10,8 @@ interface BookDetailProps {
   onBack: () => void;
 }
 
-const BookDetail: React.FC<BookDetailProps> = ({ 
-  book, account, onRent, onReturn, onReclaim, onBack 
+const BookDetail: React.FC<BookDetailProps> = ({
+  book, account, onRent, onReturn, onReclaim, onBack
 }) => {
   if (!book) return null;
 
@@ -21,73 +20,97 @@ const BookDetail: React.FC<BookDetailProps> = ({
   const isRented = !book.isAvailable;
   const zeroAddress = '0x0000000000000000000000000000000000000000';
   const canReclaim = isOwner && isRented && book.renter !== zeroAddress;
-  const formatDate = (timestamp: string) => (!timestamp || timestamp === '0' ? 'N/A' : new Date(parseInt(timestamp) * 1000).toLocaleString());
-  const rentalPeriodEnd = book.rentalPeriod && parseInt(book.rentalPeriod) > 0 ? formatDate(book.rentalPeriod) : 'N/A';
+  const formatDate = (timestamp: string) =>
+    (!timestamp || timestamp === '0'
+      ? 'N/A'
+      : new Date(parseInt(timestamp) * 1000).toLocaleString()
+    );
+  const rentalPeriodEnd =
+    book.rentalPeriod && parseInt(book.rentalPeriod) > 0
+      ? formatDate(book.rentalPeriod)
+      : 'N/A';
 
   return (
-    <div className="bg-white/10 backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden border border-blue-100/10">
+    <div className="bg-[#181824]/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-cyan-500/10 overflow-hidden">
       <div className="p-8">
-        <button 
+        <button
           onClick={onBack}
-          className="flex items-center text-blue-600 hover:text-blue-800 mb-4"
+          className="flex items-center text-cyan-300 hover:text-cyan-100 mb-6 font-semibold transition"
         >
-          <ArrowLeft size={18} className="mr-1" />
+          <ArrowLeft size={20} className="mr-2" />
           Back to Library
         </button>
-        <div className="flex flex-col md:flex-row">
-          <div className="md:w-1/3 mb-6 md:mb-0 md:mr-6">
-            <div className="bg-gray-200 rounded-lg overflow-hidden h-64 md:h-auto">
+        <div className="flex flex-col md:flex-row gap-8">
+          {/* Book Cover */}
+          <div className="md:w-1/3 w-full flex-shrink-0">
+            <div
+              className="rounded-2xl overflow-hidden bg-gradient-to-br from-cyan-900/40 to-blue-900/30 border border-cyan-800/20 h-72 flex items-center justify-center"
+              style={{
+                boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)'
+              }}
+            >
               {book.coverImage ? (
-                <img 
-                  src={book.coverImage.startsWith('data:') ? book.coverImage : `data:image/jpeg;base64,${book.coverImage}`} 
+                <img
+                  src={
+                    book.coverImage.startsWith('data:')
+                      ? book.coverImage
+                      : `data:image/jpeg;base64,${book.coverImage}`
+                  }
                   alt={book.title}
-                  className="w-full h-full object-cover"
+                  className="object-cover w-full h-full"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center bg-gray-300">
-                  <span className="text-gray-500">No Image</span>
-                </div>
+                <span className="text-cyan-400 text-lg">No Image</span>
               )}
             </div>
           </div>
-          <div className="md:w-2/3">
-            <h1 className="text-3xl font-bold text-gray-800 mb-2">{book.title}</h1>
+          {/* Book Info */}
+          <div className="md:w-2/3 w-full flex flex-col">
+            <h1 className="text-3xl md:text-4xl font-extrabold text-cyan-100 mb-2 tracking-tight drop-shadow">
+              {book.title}
+            </h1>
             <div className="flex flex-wrap gap-4 mb-4">
-              <div className="flex items-center text-gray-600">
-                <DollarSign size={18} className="mr-1" />
-                <span>{book.dailyPrice} ETH per day</span>
+              <div className="flex items-center text-cyan-300">
+                <DollarSign size={20} className="mr-1" />
+                <span className="font-semibold">{book.dailyPrice} ETH/day</span>
               </div>
-              <div className="flex items-center text-gray-600">
-                <Clock size={18} className="mr-1" />
-                <span>{book.deposit} ETH deposit</span>
+              <div className="flex items-center text-cyan-300">
+                <Clock size={20} className="mr-1" />
+                <span className="font-semibold">{book.deposit} ETH deposit</span>
               </div>
-              <div className="flex items-center text-gray-600">
-                <User size={18} className="mr-1" />
-                <span>Owner: {book.owner.substring(0, 6)}...{book.owner.substring(book.owner.length - 4)}</span>
+              <div className="flex items-center text-cyan-300">
+                <User size={20} className="mr-1" />
+                <span>
+                  Owner: {book.owner.substring(0, 6)}...{book.owner.substring(book.owner.length - 4)}
+                </span>
               </div>
-              <div className="flex items-center">
-                <span 
-                  className={`px-3 py-1 rounded-full text-sm font-medium ${
-                    book.isAvailable ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                  }`}
+              <div>
+                <span
+                  className={`px-3 py-1 rounded-full text-xs font-bold tracking-wide shadow
+                    ${book.isAvailable
+                      ? 'bg-green-900/50 text-green-300 border border-green-500/30'
+                      : 'bg-red-900/50 text-red-300 border border-red-500/30'
+                    }`}
                 >
                   {book.isAvailable ? 'Available' : 'Rented'}
                 </span>
               </div>
             </div>
             {isRented && (
-              <div className="mb-4 p-4 bg-blue-50 rounded-lg">
-                <h3 className="font-semibold text-blue-800 mb-2">Rental Information</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                  <div className="flex items-center text-gray-700">
+              <div className="mb-4 p-4 rounded-2xl bg-cyan-900/30 border border-cyan-700/20 shadow-inner">
+                <h3 className="font-semibold text-cyan-200 mb-2">Rental Information</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-cyan-300">
+                  <div className="flex items-center">
                     <User size={16} className="mr-1" />
-                    <span>Renter: {book.renter.substring(0, 6)}...{book.renter.substring(book.renter.length - 4)}</span>
+                    <span>
+                      Renter: {book.renter.substring(0, 6)}...{book.renter.substring(book.renter.length - 4)}
+                    </span>
                   </div>
-                  <div className="flex items-center text-gray-700">
+                  <div className="flex items-center">
                     <Calendar size={16} className="mr-1" />
                     <span>Rented At: {formatDate(book.rentedAt)}</span>
                   </div>
-                  <div className="flex items-center text-gray-700">
+                  <div className="flex items-center">
                     <Calendar size={16} className="mr-1" />
                     <span>Due By: {rentalPeriodEnd}</span>
                   </div>
@@ -95,36 +118,36 @@ const BookDetail: React.FC<BookDetailProps> = ({
               </div>
             )}
             <div className="mb-6">
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Description</h3>
-              <p className="text-gray-600">{book.description}</p>
+              <h3 className="text-lg font-semibold text-cyan-100 mb-2">Description</h3>
+              <p className="text-cyan-200">{book.description}</p>
             </div>
             <div className="flex flex-wrap gap-3">
               {book.isAvailable && !isOwner && (
-                <button 
+                <button
                   onClick={() => onRent(book.id)}
-                  className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                  className="px-6 py-2 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-500 text-white font-semibold shadow-md hover:from-cyan-700 hover:to-blue-600 transition"
                 >
                   Rent Book
                 </button>
               )}
               {isRenter && (
-                <button 
+                <button
                   onClick={() => onReturn(book.id)}
-                  className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
+                  className="px-6 py-2 rounded-xl bg-gradient-to-r from-green-500 to-cyan-400 text-white font-semibold shadow-md hover:from-green-600 hover:to-cyan-500 transition"
                 >
                   Return Book
                 </button>
               )}
               {canReclaim && (
-                <button 
+                <button
                   onClick={() => onReclaim(book.id)}
-                  className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+                  className="px-6 py-2 rounded-xl bg-gradient-to-r from-pink-500 to-red-500 text-white font-semibold shadow-md hover:from-pink-600 hover:to-red-600 transition"
                 >
                   Reclaim Book
                 </button>
               )}
               {isOwner && (
-                <span className="px-4 py-2 bg-blue-100 text-blue-800 rounded-lg">
+                <span className="px-4 py-2 bg-cyan-900/50 text-cyan-200 rounded-xl font-semibold border border-cyan-700/30">
                   You own this book
                 </span>
               )}

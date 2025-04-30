@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Upload, X } from 'lucide-react';
 
@@ -59,18 +58,21 @@ const AddBookForm: React.FC<AddBookFormProps> = ({ onSubmit, onCancel }) => {
         description,
         dailyPrice,
         deposit,
-        "coverImage": "data:image/jpeg;base64,/9j/4AAQSkZJRg==",
+        coverImage,
       });
     }
   };
 
   return (
-    <div className="bg-white/10 backdrop-blur-lg rounded-2xl shadow-lg p-8 border border-blue-100/10">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">List a New Book</h2>
+    <div className="max-w-4xl mx-auto bg-[#181824]/80 backdrop-blur-2xl rounded-3xl shadow-2xl border border-cyan-500/10 p-8">
+      <h2 className="text-3xl font-extrabold bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent mb-8 tracking-tight">
+        List a New Book
+      </h2>
       <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="md:col-span-2">
-            <label className="block text-gray-700 font-medium mb-2" htmlFor="title">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Left column */}
+          <div>
+            <label htmlFor="title" className="block text-cyan-200 font-semibold mb-2">
               Title
             </label>
             <input
@@ -78,31 +80,17 @@ const AddBookForm: React.FC<AddBookFormProps> = ({ onSubmit, onCancel }) => {
               id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                errors.title ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-4 py-3 rounded-xl bg-[#232946]/80 border focus:outline-none focus:ring-2 focus:ring-cyan-500 text-cyan-100 placeholder-cyan-400 transition ${
+                errors.title ? 'border-pink-500' : 'border-cyan-800/30'
               }`}
               placeholder="Book Title"
+              autoComplete="off"
             />
-            {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title}</p>}
+            {errors.title && <p className="text-pink-400 text-sm mt-1">{errors.title}</p>}
           </div>
-          <div className="md:col-span-2">
-            <label className="block text-gray-700 font-medium mb-2" htmlFor="description">
-              Description
-            </label>
-            <textarea
-              id="description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                errors.description ? 'border-red-500' : 'border-gray-300'
-              }`}
-              placeholder="Book Description"
-              rows={4}
-            />
-            {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
-          </div>
+          {/* Right column */}
           <div>
-            <label className="block text-gray-700 font-medium mb-2" htmlFor="dailyPrice">
+            <label htmlFor="dailyPrice" className="block text-cyan-200 font-semibold mb-2">
               Daily Price (ETH)
             </label>
             <input
@@ -110,15 +98,17 @@ const AddBookForm: React.FC<AddBookFormProps> = ({ onSubmit, onCancel }) => {
               id="dailyPrice"
               value={dailyPrice}
               onChange={(e) => setDailyPrice(e.target.value)}
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                errors.dailyPrice ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-4 py-3 rounded-xl bg-[#232946]/80 border focus:outline-none focus:ring-2 focus:ring-cyan-500 text-cyan-100 placeholder-cyan-400 transition ${
+                errors.dailyPrice ? 'border-pink-500' : 'border-cyan-800/30'
               }`}
               placeholder="0.01"
+              autoComplete="off"
             />
-            {errors.dailyPrice && <p className="text-red-500 text-sm mt-1">{errors.dailyPrice}</p>}
+            {errors.dailyPrice && <p className="text-pink-400 text-sm mt-1">{errors.dailyPrice}</p>}
           </div>
+          {/* Left column */}
           <div>
-            <label className="block text-gray-700 font-medium mb-2" htmlFor="deposit">
+            <label htmlFor="deposit" className="block text-cyan-200 font-semibold mb-2">
               Deposit (ETH)
             </label>
             <input
@@ -126,15 +116,34 @@ const AddBookForm: React.FC<AddBookFormProps> = ({ onSubmit, onCancel }) => {
               id="deposit"
               value={deposit}
               onChange={(e) => setDeposit(e.target.value)}
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                errors.deposit ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-4 py-3 rounded-xl bg-[#232946]/80 border focus:outline-none focus:ring-2 focus:ring-cyan-500 text-cyan-100 placeholder-cyan-400 transition ${
+                errors.deposit ? 'border-pink-500' : 'border-cyan-800/30'
               }`}
               placeholder="0.1"
+              autoComplete="off"
             />
-            {errors.deposit && <p className="text-red-500 text-sm mt-1">{errors.deposit}</p>}
+            {errors.deposit && <p className="text-pink-400 text-sm mt-1">{errors.deposit}</p>}
           </div>
+          {/* Right column */}
+          <div>
+            <label htmlFor="description" className="block text-cyan-200 font-semibold mb-2">
+              Description
+            </label>
+            <textarea
+              id="description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className={`w-full px-4 py-3 rounded-xl bg-[#232946]/80 border focus:outline-none focus:ring-2 focus:ring-cyan-500 text-cyan-100 placeholder-cyan-400 transition ${
+                errors.description ? 'border-pink-500' : 'border-cyan-800/30'
+              }`}
+              placeholder="Book Description"
+              rows={4}
+            />
+            {errors.description && <p className="text-pink-400 text-sm mt-1">{errors.description}</p>}
+          </div>
+          {/* Full width for image upload */}
           <div className="md:col-span-2">
-            <label className="block text-gray-700 font-medium mb-2">
+            <label className="block text-cyan-200 font-semibold mb-2">
               Cover Image
             </label>
             {previewImage ? (
@@ -142,7 +151,7 @@ const AddBookForm: React.FC<AddBookFormProps> = ({ onSubmit, onCancel }) => {
                 <img 
                   src={previewImage} 
                   alt="Cover Preview" 
-                  className="w-full max-h-64 object-contain rounded-lg border border-gray-300" 
+                  className="w-full max-h-64 object-contain rounded-xl border border-cyan-800/30 shadow-lg" 
                 />
                 <button
                   type="button"
@@ -150,13 +159,14 @@ const AddBookForm: React.FC<AddBookFormProps> = ({ onSubmit, onCancel }) => {
                     setCoverImage('');
                     setPreviewImage('');
                   }}
-                  className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
+                  className="absolute top-2 right-2 bg-pink-500 text-white p-1 rounded-full hover:bg-pink-600 shadow"
+                  aria-label="Remove image"
                 >
                   <X size={16} />
                 </button>
               </div>
             ) : (
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+              <div className="border-2 border-dashed border-cyan-800/30 rounded-xl p-8 text-center bg-[#232946]/40 hover:bg-[#232946]/60 transition">
                 <input
                   type="file"
                   id="coverImage"
@@ -168,26 +178,26 @@ const AddBookForm: React.FC<AddBookFormProps> = ({ onSubmit, onCancel }) => {
                   htmlFor="coverImage"
                   className="flex flex-col items-center justify-center cursor-pointer"
                 >
-                  <Upload size={48} className="text-gray-400 mb-2" />
-                  <span className="text-gray-500">Click to upload cover image</span>
-                  <span className="text-gray-400 text-sm mt-1">JPG, PNG, GIF up to 1MB</span>
+                  <Upload size={48} className="text-cyan-400 mb-2" />
+                  <span className="text-cyan-300 font-medium">Click to upload cover image</span>
+                  <span className="text-cyan-500 text-sm mt-1">JPG, PNG, GIF up to 1MB</span>
                 </label>
               </div>
             )}
-            {errors.image && <p className="text-red-500 text-sm mt-1">{errors.image}</p>}
+            {errors.image && <p className="text-pink-400 text-sm mt-1">{errors.image}</p>}
           </div>
         </div>
-        <div className="flex justify-end mt-6 space-x-3">
+        <div className="flex justify-end mt-8 space-x-4">
           <button
             type="button"
             onClick={onCancel}
-            className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
+            className="px-6 py-2 rounded-xl bg-gradient-to-r from-cyan-900 to-blue-900 text-cyan-200 font-semibold hover:from-cyan-800 hover:to-blue-800 transition"
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+            className="px-6 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold shadow-md hover:from-cyan-600 hover:to-blue-600 transition"
           >
             List Book
           </button>

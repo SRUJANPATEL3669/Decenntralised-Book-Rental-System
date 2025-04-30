@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { BookOpen, Clock, DollarSign } from 'lucide-react';
 import Web3 from 'web3';
@@ -11,8 +10,8 @@ interface MyRentalsProps {
   onReturn: (bookId: string) => void;
 }
 
-const MyRentals: React.FC<MyRentalsProps> = ({ 
-  contract, account, web3, onBookSelect, onReturn 
+const MyRentals: React.FC<MyRentalsProps> = ({
+  contract, account, web3, onBookSelect, onReturn
 }) => {
   const [rentals, setRentals] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -51,85 +50,102 @@ const MyRentals: React.FC<MyRentalsProps> = ({
     loadRentals();
   }, [contract, account, web3]);
 
-  const formatDate = (timestamp: string) => (!timestamp || timestamp === '0' ? 'N/A' : new Date(parseInt(timestamp) * 1000).toLocaleString());
+  const formatDate = (timestamp: string) =>
+    (!timestamp || timestamp === '0'
+      ? 'N/A'
+      : new Date(parseInt(timestamp) * 1000).toLocaleString()
+    );
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      <div className="flex flex-col justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-cyan-400 shadow-lg"></div>
+        <span className="mt-4 text-cyan-300 font-medium">Loading your rentals...</span>
       </div>
     );
   }
 
   if (rentals.length === 0) {
     return (
-      <div className="text-center py-12">
-        <BookOpen size={48} className="mx-auto text-gray-400 mb-4" />
-        <h2 className="text-2xl font-semibold text-gray-600">You haven't rented any books yet</h2>
-        <p className="mt-2 text-gray-500">Browse the library to find books to rent</p>
+      <div className="text-center py-16">
+        <BookOpen size={56} className="mx-auto text-cyan-700 mb-4 drop-shadow-lg" />
+        <h2 className="text-2xl font-bold text-cyan-200 mb-2">No Rented Books Yet</h2>
+        <p className="text-cyan-400">Browse the library and rent your first book!</p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <div className="grid gap-8 sm:grid-cols-1 md:grid-cols-2">
       {rentals.map((rental) => (
-        <div key={rental.id} className="bg-white/10 backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden border border-blue-100/10">
-          <div className="p-6 flex flex-col md:flex-row">
-            <div 
-              className="md:w-1/4 mb-4 md:mb-0 md:mr-6 cursor-pointer"
-              onClick={() => onBookSelect(rental.id)}
-            >
-              <div className="bg-gray-200 rounded-lg overflow-hidden h-48">
-                {rental.coverImage ? (
-                  <img 
-                    src={rental.coverImage.startsWith('data:') ? rental.coverImage : `data:image/jpeg;base64,${rental.coverImage}`} 
-                    alt={rental.title}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-gray-300">
-                    <span className="text-gray-500">No Image</span>
-                  </div>
-                )}
+        <div
+          key={rental.id}
+          className="relative bg-[#181824]/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-cyan-500/10 flex flex-col md:flex-row transition-transform hover:scale-[1.015]"
+        >
+          {/* Book Cover */}
+          <div
+            className="md:w-40 w-full flex-shrink-0 cursor-pointer overflow-hidden rounded-t-3xl md:rounded-l-3xl md:rounded-tr-none"
+            onClick={() => onBookSelect(rental.id)}
+            title="View Details"
+            style={{
+              background:
+                'linear-gradient(135deg, rgba(34,193,195,0.25) 0%, rgba(253,187,45,0.15) 100%)'
+            }}
+          >
+            {rental.coverImage ? (
+              <img
+                src={
+                  rental.coverImage.startsWith('data:')
+                    ? rental.coverImage
+                    : `data:image/jpeg;base64,${rental.coverImage}`
+                }
+                alt={rental.title}
+                className="object-cover w-full h-56 md:h-56"
+              />
+            ) : (
+              <div className="w-full h-56 flex items-center justify-center bg-cyan-900/30 text-cyan-300">
+                <span>No Image</span>
               </div>
-            </div>
-            <div className="md:w-3/4">
-              <h3 
-                className="text-xl font-semibold text-gray-800 mb-2 cursor-pointer hover:text-blue-600"
+            )}
+          </div>
+          {/* Details */}
+          <div className="flex-1 p-6 flex flex-col justify-between">
+            <div>
+              <h3
+                className="text-xl font-bold text-cyan-100 mb-2 cursor-pointer hover:text-cyan-400 transition"
                 onClick={() => onBookSelect(rental.id)}
               >
                 {rental.title}
               </h3>
-              <p className="text-gray-600 mb-4 line-clamp-2">{rental.description}</p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-4">
-                <div className="flex items-center text-gray-600">
+              <p className="text-cyan-300 mb-4 line-clamp-2">{rental.description}</p>
+              <div className="flex flex-wrap gap-x-8 gap-y-2 text-cyan-400 text-sm mb-4">
+                <div className="flex items-center">
                   <DollarSign size={16} className="mr-1" />
-                  <span>{rental.dailyPrice} ETH per day</span>
+                  <span>{rental.dailyPrice} ETH/day</span>
                 </div>
-                <div className="flex items-center text-gray-600">
+                <div className="flex items-center">
                   <Clock size={16} className="mr-1" />
-                  <span>Rented on: {formatDate(rental.rentedAt)}</span>
+                  <span>Rented: {formatDate(rental.rentedAt)}</span>
                 </div>
-                <div className="flex items-center text-gray-600">
+                <div className="flex items-center">
                   <Clock size={16} className="mr-1" />
-                  <span>Due by: {formatDate(rental.rentalPeriod)}</span>
+                  <span>Due: {formatDate(rental.rentalPeriod)}</span>
                 </div>
               </div>
-              <div className="flex space-x-3">
-                <button 
-                  onClick={() => onBookSelect(rental.id)}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-                >
-                  View Details
-                </button>
-                <button 
-                  onClick={() => onReturn(rental.id)}
-                  className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
-                >
-                  Return Book
-                </button>
-              </div>
+            </div>
+            <div className="flex gap-3 mt-2">
+              <button
+                onClick={() => onBookSelect(rental.id)}
+                className="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-500 text-white font-semibold shadow-md hover:from-cyan-700 hover:to-blue-600 transition"
+              >
+                View Details
+              </button>
+              <button
+                onClick={() => onReturn(rental.id)}
+                className="px-4 py-2 rounded-xl bg-gradient-to-r from-green-500 to-cyan-400 text-white font-semibold shadow-md hover:from-green-600 hover:to-cyan-500 transition"
+              >
+                Return Book
+              </button>
             </div>
           </div>
         </div>
