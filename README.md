@@ -69,3 +69,11 @@ A blockchain-powered decentralized application (DApp) for renting books, ensurin
 -  Divyam Maru: 230001025
 -  Dhriti Jha: 230021007
 -  Abhinav Singh: 230008002
+
+## Project Report
+
+
+
+## Project Presentation
+
+https://www.canva.com/design/DAGlobpelLI/mu6E7-As1pLm-pOduZh1rQ/edit?utm_content=DAGlobpelLI&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
