@@ -41,19 +41,24 @@ A blockchain-powered decentralized application (DApp) for renting books, ensurin
    cd Decenntralised-Book-Rental-System
 
 2. **Install Dependencies**
-   ```npm install
+   ```bash
+   npm install
 
 3. **Compile Smart Contracts**
-   ```truffle compile
+   ```bash
+   truffle compile
 
 4. **Deploy Contracts to Local Blockchain Start Ganache, then:**
-   ```truffle migrate
+   ```bash
+   truffle migrate
 
 5. **Run the Frontend**
-   ```npm start
+    ```bash
+   npm start
 
 6. **Connect MetaMask**
-   ```Set network to Localhost 8545
+   ```bash
+   Set network to Localhost 8545
    Import an account from Ganache using private key
 
 ## Team Mates
